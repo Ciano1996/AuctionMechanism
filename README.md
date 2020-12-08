@@ -122,16 +122,43 @@ The ```src/main/java/it.unisa.implementation``` package provides the following J
 # Project Development
 ## Auction Class
 
-- *Date stop_time : the deadline of the auction*
-- *int owner : the owner of the auction*
-- *String name :*
-- *String category :*
-- *String description :*
-- *Double start_price :*
-- *int id_bid :*
-- *Double winBid :*
-- *Double secondBid :*
-- *PeerAddress peerAddress_bid :*
-- *PeerAddress peerAddress_oldBid :*
-- *HashSet<PeerAddress> users :*
+- *Date stop_time : The deadline of the auction*
+- *int owner : The owner of the auction*
+- *String name : The name of the auction*
+- *String category : The category at which the product belongs*
+- *String description : A simple description of the product*
+- *Double start_price : The starting price of the product*
+- *int id_bid : The id of the winning participant*
+- *Double winBid : The winning bid*
+- *Double secondBid : The second highest bid*
+- *PeerAddress peerAddress_bid : The id of the highest bidder*
+- *PeerAddress peerAddress_oldBid : The id of the second highest bidder*
+- *HashSet<PeerAddress> users : All the participants to the auction*
 
+## AuctionMecanism Interface
+Consists of the following methods:
+
+1. createAuction: to create an auction
+It takes the following values:
+- String auction_name: The name of the auction
+- Double start_price: The beginning price of the auction
+- String category: The category of the auction
+- String description: A simple description of the auction
+- Date end_time: The deadline of the auction
+
+2. checkAuction: to check the status of a specific auction
+It takes the following value:
+- String auction_name: The name of the auction
+
+3. placeAbid: to bid over an auction.
+It takes the following values: 
+- String auctionName: The name of the auction
+- Double bid: The amount of money offered
+
+## AuctionMechanismImpl Class
+
+
+## Main
+
+
+## MessageListener Interface
