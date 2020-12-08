@@ -12,7 +12,7 @@ Author: Francesco Ciano
 - Docker
 - IntelliJ
 
-#Project Structure
+# Project Structure
 The POM file has been modified using MAVEN, inserting dependencies to Tom P2P.
 Here structure:
 ```
@@ -112,3 +112,26 @@ Here structure:
 
 </project>
 ```
+The ```src/main/java/it.unisa.implementation``` package provides the following Java classes:
+- Auction: The class representing the Auction object
+- AuctionMechanism : The interface defining the main methods 
+- AuctionMechanismImpl: The implementation of the AuctionMechanism interface
+- Main: an Example of the AuctionMechanismImpl application 
+- MessageListener: A simple interface for the listener of messages that peers receives
+
+# Project Development
+## Auction Class
+
+- *Date stop_time : the deadline of the auction*
+- *int owner : the owner of the auction*
+- *String name :*
+- *String category :*
+- *String description :*
+- *Double start_price :*
+- *int id_bid :*
+- *Double winBid :*
+- *Double secondBid :*
+- *PeerAddress peerAddress_bid :*
+- *PeerAddress peerAddress_oldBid :*
+- *HashSet<PeerAddress> users :*
+
