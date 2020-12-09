@@ -310,8 +310,28 @@ public String placeABid(String auctionName, Double bid) throws IOException, Clas
     }
 ```
 
+## Other methods implemented
 
-## Main
+### CheckAllAuction
+This method let the user to check all the active auction at the moment, receiving all the important information about their status
+
+### AuctionOwner
+This method let the peer using it, have a list of all the active auction it own as creator, reveiving the important information about each one
+
+### FindAuctionByCategory
+This method let the user have a list of all the active auctions belonging to the same category
+
+### FindAuctionByPrice
+This method let the user have a list of all the active auctions having the same price
+
+### Message
+Al clearly explains the name, this method is used to send a message. It is used in the situations in which a better bid is made, in this case the old best offerer is notified. It is also used when the owner of an auction, suddenly decide to leave the network or remove that specific auction. in this case all the participants are notified 
 
 
-## MessageListener Interface
+method is used to notify a peer that its offer has just been surpassed by a new proposal of greater value, to alert participants of an auction of the sudden abandonment of the network by the creator of the auction and the elimination of this or the abandonment of the highest bidder and the consecutive reset of the auction at the basic price.
+
+### RemoveAnAuction
+This method let the author of an auction remove it from the DHT whenever he wants. All the participants to the auction will be updated about the removing with a message. Is t clear, that only the creator  of the auction can make this operation
+
+### LeaveNetwork
+This method let any peers to leave the network, and befor leaving it will also remove from the DHT all the auctions the peers own
