@@ -1020,9 +1020,43 @@ COPY --from=1 /app/target/AuctionCiano-1.0-jar-with-dependencies.jar /
 
 CMD /usr/bin/java -jar AuctionCiano-1.0-jar-with-dependencies.jar -m $MASTERIP -id $ID
 ```
+- Given the structure of the file it can be used to build any app with the following features:
+
+         - The source code is hosted on GitHub.
+         - The compilation tool is Maven.
+         - The resulting output is an executable JAR file.
+         
+     The parameters presented are:
+
+         - The URL of the GitHub repository
+         - The name of the project
+         - The artifact ID and the version of Maven
+
+     These parameters can be used to design a parametric build file. 
+     In Docker, parameters can be passed using the ENV or ARG options. Both are set using the ```--build-arg``` option on the command line during the docker build operation.
+
+- Usually the build phases are referenced through their index (starting from 0). Although this is not a problem, it is useful for better readability of the file to have something semantically significant. Docker allows us to label the phases and refers to these labels in the subsequent phases.
 
 
+# How to build the Project
+### The Docker
+First operation to perform is building the docker container in the terminal using this instruction:
+```
+docker build --build-arg url=https://github.com/Ciano1996/AuctionMechanism.git --build-arg project=AuctionMechanism --build-arg artifactid=auctionciano --build-arg version=1.0-jar-with-dependencies -t auctionciano --no-cache .
+```
+### The Master Peer
+Next, is necessary to start the master peer with the following instruction in interactive "-i" mode and with 2 environment variables "-e"
+```
+docker run -i --name MASTER-PEER -e MASTERIP="127.0.0.1" -e ID=0 auctionciano
+```
+The MASTERIP variable refers to the master peer address, while the ID refers to the unique peer ID value. The master have to start with ID value 0
 
+### Other Peers
+After the master, other peers can be started with
+```
+docker run -i --name PEER-1 -e MASTERIP="172.17.0.2" -e ID=1 auctionmechanism
+```
+What is important to make it work, is to change the ID values, giving each peer a different unique one
 
 
 
