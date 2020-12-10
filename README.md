@@ -197,7 +197,9 @@ Takes the following value:
 The method is developed as follows:
 
 - First of all it checks if the name the user is looking for is in the DHT
-- If there is a positive result
+- If there is a positive result, takes the list, otherwise it create a new one
+- Then it looks for an auction with the name given as input and if found, takes the corresponding element
+- At that point there is the data checking, to understand if an auction is active or not and at least output its status
 
 ```
  public String checkAuction(String auction_name) throws IOException, ClassNotFoundException{
@@ -252,8 +254,12 @@ Takes the following values:
 - Double bid: The amount of money offered
 
 ### Explaination and Implementation
+The method is developed as follows:
 
-
+- Checks if the corresponding auction exists, and if found, download it from the DHT
+- Then there is the time checking part, to understand if the auction is active or not
+- Then, since it would not be possible, is checked if the bidder is the auction creator or the current best bidder
+-If these controls are passed, the amount bid is checked, to know if it is enough to participate regoularly and if so, all the information are finally updated in the DHT
 ```
 public String placeABid(String auctionName, Double bid) throws IOException, ClassNotFoundException {
 
