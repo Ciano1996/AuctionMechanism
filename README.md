@@ -339,15 +339,12 @@ For the testing phase, two specific classes has been made and both of them explo
 The first one is structured examining the outputs of each method, case per case
 
 ### CREATE AUCTION
-/*TEST 1-1: createAuction()
-    * @result create a new auction
-    * */
- /*TEST 1-2: createAuction()
-     * @result creating a new auction doesn't work due to a wrong date insertion
-     * */
-  /*TEST 1-3: createAuction()
-     * @result creating a new auction doesn't work since the auction of that product as already been created
-     * */   
+-TEST 1-1: create a new auction
+  
+-TEST 1-2: creating a new auction doesn't work due to a wrong date insertion
+
+-TEST 1-3: creating a new auction doesn't work since the auction of that product as already been created
+       
      
 
 ```
@@ -412,27 +409,20 @@ The first one is structured examining the outputs of each method, case per case
     
 ### CHECK AUCTION
 
-/*TEST 2-1: checkAuction()
-     * @result the check of the auction reveals that it is ended without a winner
-     * */
-/*TEST 2-2: checkAuction()
-     * @result the peer that checks the status of the auction, is the one that won the auction
-     * */
- /*TEST 2-3: checkAuction()
-     * @result the peer that checks the status of the auction, is not the one that won it
-     * */  
-/*TEST 2-4: checkAuction()
-     * @result the auction checked has no participants
-     * */
- /*TEST 2-5: checkAuction()
-     * @result the peer that check is the higher bidder
-     * */
-/*TEST 2-6: checkAuction()
-     * @result the peer that checks is not the higher bidder
-     * */     
-  /*TEST 2-7: checkAuction()
-     * @result the check fails since it looks for a different product
-     * */    
+-TEST 2-1:  the check of the auction reveals that it is ended without a winner
+    
+-TEST 2-2:  the peer that checks the status of the auction, is the one that won the auction
+     
+-TEST 2-3:  the peer that checks the status of the auction, is not the one that won it
+       
+-TEST 2-4: the auction checked has no participants
+     
+-TEST 2-5: the peer that check is the higher bidder
+     
+-TEST 2-6: the peer that checks is not the higher bidder
+         
+-TEST 2-7: the check fails since it looks for a different product
+       
      
 ```
     /*TEST 2-1: checkAuction()
@@ -603,26 +593,18 @@ The first one is structured examining the outputs of each method, case per case
 ```
 ### PLACE A BID
 
- /*TEST 3-1: placeABid()
-     * @result the peer tries to bid on an already ended no won auction
-     * */
-  /*TEST 3-2: placeABid()
-     * @result the peer tries to bid on an already won auction
-     * */    
-/*TEST 3-3: placeABid()
-     * @result the creator of the auction tries to bid, but he can't since it's the owner
-     * */
-/*TEST 3-4: placeABid()
-     * @result a peer bids more than once, and knows it's still the main bidder
-     * */     
-/*TEST 3-5: placeABid()
-     * @result simple bidding mechanism result
-     * */     
-/*TEST 3-6: placeABid()
-     * @result the peer tries to bid an amount of money less than the starting price
-     * */
-
-
+-TEST 3-1: the peer tries to bid on an already ended no won auction
+     
+-TEST 3-2: the peer tries to bid on an already won auction
+       
+-TEST 3-3: the creator of the auction tries to bid, but he can't since it's the owner
+    
+-TEST 3-4: a peer bids more than once, and knows it's still the main bidder
+          
+-TEST 3-5: simple bidding mechanism result
+         
+-TEST 3-6: the peer tries to bid an amount of money less than the starting price
+     
 ```
     /*TEST 3-1: placeABid()
      * @result the peer tries to bid on an already ended no won auction
@@ -752,9 +734,7 @@ The first one is structured examining the outputs of each method, case per case
 ```
 ### AUCTION OWNER
 
-/*TEST 4-1: auctionOwner()
-     * @result multiple peers creates multiple auctions and some of them wants to check what they own
-     * */
+-TEST 4-1: multiple peers creates multiple auctions and some of them wants to check what they own
 
 ```
     /*TEST 4-1: auctionOwner()
@@ -813,9 +793,7 @@ The first one is structured examining the outputs of each method, case per case
 
 ### CHECK ALL AUCTION
 
-/*TEST 5-1: checkAllAuction()
-     * @result multiple peers creates multiple auctions and some of them check all the available auctions
-     * */
+-TEST 5-1: multiple peers creates multiple auctions and some of them check all the available auctions
 
 ```
     /*TEST 5-1: checkAllAuction()
@@ -861,9 +839,7 @@ The first one is structured examining the outputs of each method, case per case
 ```
 ### FIND AUCTION BY CATEGORY
 
-/*TEST 6-1: findAuctionByCategory()
-     * @result multiple peers creates multiple auctions and some of them wants to check what belongs to a certain category
-     * */
+-TEST 6-1: multiple peers creates multiple auctions and some of them wants to check what belongs to a certain category
 
 ```
     /*TEST 6-1: findAuctionByCategory()
@@ -914,9 +890,7 @@ The first one is structured examining the outputs of each method, case per case
 ```
 ### FIND AUCTION BY PRICE
 
-/*TEST 7-1: findAuctionByPrice()
-     * @result multiple peers creates multiple auctions and some of them wants to check which of them have a certain price
-     * */
+-TEST 7-1: multiple peers creates multiple auctions and some of them wants to check which of them have a certain price    
 
 ```
     /*TEST 7-1: findAuctionByPrice()
@@ -958,9 +932,7 @@ The first one is structured examining the outputs of each method, case per case
 ```
 ### REMOVE AUCTION
 
-/*TEST 8-1: removeAnAuction()
-     * @result multiple peers creates multiple auctions and some of them at a certain point, decides to remove what belongs to its
-     * */
+-TEST 8-1: multiple peers creates multiple auctions and some of them at a certain point, decides to remove what belongs to its    
 
 ```
     /*TEST 8-1: removeAnAuction()
@@ -1023,6 +995,29 @@ The first one is structured examining the outputs of each method, case per case
         System.out.println("----END----");
     }
 ```
+# Dockerfile
+Here is how the project Dockerfile has been structured:
+```
+FROM ubuntu
+WORKDIR /app
+ADD  . /app/AuctionCiano
+
+FROM maven:3.5-jdk-8-alpine
+WORKDIR /app
+COPY --from=0 /app/AuctionCiano /app
+RUN mvn package
+
+FROM openjdk:8-jre-alpine
+ENV MASTERIP=127.0.0.1
+ENV ID=0
+COPY --from=1 /app/target/AuctionCiano-1.0-jar-with-dependencies.jar /
+
+CMD /usr/bin/java -jar AuctionCiano-1.0-jar-with-dependencies.jar -m $MASTERIP -id $ID
+```
+
+
+
+
 
 
 
