@@ -197,7 +197,7 @@ Takes the following value:
 The method is developed as follows:
 
 - First of all it checks if the name the user is looking for is in the DHT
--
+- If there is a positive result
 
 ```
  public String checkAuction(String auction_name) throws IOException, ClassNotFoundException{
