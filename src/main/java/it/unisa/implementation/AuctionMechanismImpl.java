@@ -61,6 +61,16 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
 
 
+    /**
+     * Creates a new auction for a good.
+     * @param auction_name a String, the name identify the auction.
+     * @param end_time a Date that is the end time of an auction.
+     * @param start_price a double value that is the reserve minimum pricing selling.
+     * @param category a String value that is the category at which the auction object belongs
+     * @param description a String describing the selling goods in the auction.
+     * @return true if the auction is correctly created, false if the time is not inserted correctly or otherwise.
+     */
+
     @Override
     public boolean createAuction(String auction_name, Double start_price, String category, String description, Date end_time) throws IOException, ClassNotFoundException{
 
@@ -94,8 +104,12 @@ public class AuctionMechanismImpl implements AuctionMechanism {
     }
 
 
+    /**
+     * Checks the status of the auction.
+     * @param auction_name a String, the name of the auction.
+     * @return a String value that is the status of the auction, null if the auction you're looking for does not exists.
+     */
 
-    //CheckAuction
 
     @Override
     public String checkAuction(String auction_name) throws IOException, ClassNotFoundException{
@@ -110,9 +124,6 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                 auction = (Auction) futureGet.dataMap().values().iterator().next().object();
 
             } catch(NoSuchElementException e){
-                System.out.println("CHECK AUCTION CATCH");
-                System.out.println("qui");
-
                 return null;
             }
 
@@ -142,6 +153,14 @@ public class AuctionMechanismImpl implements AuctionMechanism {
         return null;
     }
 
+
+
+    /**
+     * Places a bid for an auction if it is not already ended.
+     * @param auctionName a String, the name of the auction.
+     * @param bid a double value, the bid for an auction.
+     * @return a String value that is the status of the auction.
+     */
 
     @Override
     public String placeABid(String auctionName, Double bid) throws IOException, ClassNotFoundException {
@@ -198,7 +217,14 @@ public class AuctionMechanismImpl implements AuctionMechanism {
         return null;
     }
 
-//AuctionOwner
+
+
+
+    /**
+     * Let the calling peer know the list of auctions whose it's the creator of.
+     * @return an ArrayList of auctions.
+     */
+
     public ArrayList<String> auctionOwner() throws IOException, ClassNotFoundException {
         try {
           ArrayList<Auction> hub = checkAllAuction();
@@ -219,7 +245,9 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
 
 
-    // LeaveNetwork
+    /**
+     * Let the calling peer exit the network.
+     */
 
     public void leaveNetwork() throws IOException, ClassNotFoundException {
         try {
@@ -237,7 +265,10 @@ public class AuctionMechanismImpl implements AuctionMechanism {
     }
 
 
-    //CheckAllAuction
+    /**
+     * Let the calling peer know the list of all the active auctions.
+     * @return an ArrayList of auctions.
+     */
 
     public ArrayList<Auction> checkAllAuction() throws IOException, ClassNotFoundException {
 
@@ -282,7 +313,9 @@ public class AuctionMechanismImpl implements AuctionMechanism {
     }
 
 
-//Message
+    /**
+     * A method that let peers send message each others to notify specific events.
+     */
 
     public void message(String auctionName, int type, Object obj) throws IOException, ClassNotFoundException {
 
@@ -309,7 +342,10 @@ public class AuctionMechanismImpl implements AuctionMechanism {
         }
     }
 
-    //FindAuctionByCategory
+    /**
+     * Let the calling peer know the list of auctions belonging to a certain category.
+     * @return an ArrayList of auctions.
+     */
 
     public ArrayList<Auction> findAuctionByCategory(String categ) throws IOException, ClassNotFoundException {
 
@@ -325,7 +361,11 @@ public class AuctionMechanismImpl implements AuctionMechanism {
         return results;
     }
 
-    //FindAuctionByPrice
+    /**
+     * Let the calling peer know the list of auctions having a certain price or lower.
+     * @return an ArrayList of auctions.
+     */
+
 
     public ArrayList<Auction> findAuctionByPrice(Double price) throws IOException, ClassNotFoundException {
 
@@ -342,7 +382,12 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
     }
 
-//RemoveAnAuction
+    /**
+     * Let the calling peer remove an auction it's the creator of.
+     * @param name a String, the name of the auction.
+     * @return true if the auction is removed correctly, false otherwise
+     */
+
 
     public boolean removeAnAuction(String name) throws IOException, ClassNotFoundException{
 
