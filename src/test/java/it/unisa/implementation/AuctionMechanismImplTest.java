@@ -477,7 +477,7 @@ public class AuctionMechanismImplTest {
     /*TEST 5-1: checkAllAuction()
      * @result multiple peers creates multiple auctions and some of them check all the available auctions
      * */
-/*
+
     @Test
     public void checkingAll(){
         System.out.println("checkingAll is running...");
@@ -514,7 +514,7 @@ public class AuctionMechanismImplTest {
         System.out.println("----END----");
     }
 
-*/
+
 // FIND AUCTION BY CATEGORY___________________________________________________________________________________________________________
 
     /*TEST 6-1: findAuctionByCategory()
