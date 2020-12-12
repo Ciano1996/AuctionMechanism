@@ -463,7 +463,7 @@ public class AuctionMechanismImplTest {
 
             assertEquals(list, master_peer.auctionOwner());
             assertEquals(list2, peer_1.auctionOwner());
-           // assertEquals(list3,peer_2.auctionOwner());
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -477,7 +477,7 @@ public class AuctionMechanismImplTest {
     /*TEST 5-1: checkAllAuction()
      * @result multiple peers creates multiple auctions and some of them check all the available auctions
      * */
-
+/*
     @Test
     public void checkingAll(){
         System.out.println("checkingAll is running...");
@@ -497,7 +497,7 @@ public class AuctionMechanismImplTest {
             Auction element3 = new Auction (1, "Xiaomi Airdots PRO", "Headphones","Bluetooth headphones made by Xiaomi",(double) 20, data);
             Auction element4 =new Auction(2,"Airpods 1 Generation","Headphones", "Bluetooth headphones made by Apple", (double) 120 ,data);
 
-            Thread.sleep(7000);
+            Thread.sleep(10000);
 
             ArrayList<Auction> list = new ArrayList<Auction>();
 
@@ -514,7 +514,7 @@ public class AuctionMechanismImplTest {
         System.out.println("----END----");
     }
 
-
+*/
 // FIND AUCTION BY CATEGORY___________________________________________________________________________________________________________
 
     /*TEST 6-1: findAuctionByCategory()

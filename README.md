@@ -117,9 +117,7 @@ How it Works:
                 auction = (Auction) futureGet.dataMap().values().iterator().next().object();
 
             } catch(NoSuchElementException e){
-                System.out.println("CHECK AUCTION CATCH");
-                System.out.println("qui");
-
+               
                 return null;
             }
 
@@ -247,6 +245,7 @@ This method let any peers to leave the network, and befor leaving it will also r
 For the testing phase, two specific classes has been made and both of them explores all the possible outputs. 
 
 The first one is structured examining the outputs of each method, case per case
+The second one is a simple simulation  
 
 #### CREATE AUCTION
 -TEST 1-1: create a new auction

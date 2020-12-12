@@ -282,7 +282,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
                 try {
                     auctionNameList = (ArrayList<String>) futureGet.dataMap().values().iterator().next().object();
-                    System.out.println(auctionNameList.size());
+
                 } catch (NoSuchElementException e) {
                     e.printStackTrace();
                 }
