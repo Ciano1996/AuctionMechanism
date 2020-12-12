@@ -450,7 +450,7 @@ public class AuctionMechanismImplTest {
             ArrayList<String> list = new ArrayList<String>();
             ArrayList<String> list2 = new ArrayList<String>();
             ArrayList<String> list3 = new ArrayList<String>();
-
+            ArrayList<Auction> list4 = new ArrayList<Auction>();
 
             list.add(element.getName());
             list.add(element1.getName());
@@ -460,10 +460,15 @@ public class AuctionMechanismImplTest {
 
             list3.add(element2.getName());
 
+            list4.add(element);
+            list4.add(element1);
+            list4.add(element3);
+            list4.add(element4);
+            list4.add(element2);
 
             assertEquals(list, master_peer.auctionOwner());
             assertEquals(list2, peer_1.auctionOwner());
-
+            assertEquals(list4.toString(), peer_2.checkAllAuction().toString());
 
         } catch (Exception e) {
             e.printStackTrace();
