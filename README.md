@@ -275,21 +275,18 @@ The second one is a simple simulation
 
 -TEST 4-1: multiple peers creates multiple auctions and some of them wants to check what they own
 
-#### CHECK ALL AUCTION
-
--TEST 5-1: multiple peers creates multiple auctions and some of them check all the available auctions
-
 #### FIND AUCTION BY CATEGORY
 
--TEST 6-1: multiple peers creates multiple auctions and some of them wants to check what belongs to a certain category
+-TEST 5-1: multiple peers creates multiple auctions and some of them wants to check what belongs to a certain category
 
 #### FIND AUCTION BY PRICE
 
--TEST 7-1: multiple peers creates multiple auctions and some of them wants to check which of them have a certain price    
+-TEST 6-1: multiple peers creates multiple auctions and some of them wants to check which of them have a certain price    
 
 #### REMOVE AUCTION
 
--TEST 8-1: multiple peers creates multiple auctions and some of them at a certain point, decides to remove what belongs to its    
+-TEST 7-1: multiple peers creates multiple auctions and some of them at a certain point, decides to remove what belongs to its    
+-TEST 7-2: multiple peers creates multiple auctions and some of them tries to remove someone else's creation
 
 # The Dockerfile
 Here is how the project Dockerfile has been structured:

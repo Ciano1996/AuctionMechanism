@@ -460,15 +460,8 @@ public class AuctionMechanismImplTest {
 
             list3.add(element2.getName());
 
-            list4.add(element);
-            list4.add(element1);
-            list4.add(element3);
-            list4.add(element4);
-            list4.add(element2);
-
             assertEquals(list, master_peer.auctionOwner());
             assertEquals(list2, peer_1.auctionOwner());
-            assertEquals(list4.toString(), peer_2.checkAllAuction().toString());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -477,52 +470,10 @@ public class AuctionMechanismImplTest {
     }
 
 
-// CHECK ALL AUCTION___________________________________________________________________________________________________________
-
-    /*TEST 5-1: checkAllAuction()
-     * @result multiple peers creates multiple auctions and some of them check all the available auctions
-     * */
-/*
-    @Test
-    public void checkingAll(){
-        System.out.println("checkingAll is running...");
-        try {
-
-            Date data = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            data = formatter.parse("12/10/2050");
-            data.setHours(11);
-            data.setMinutes(30);
-
-            peer_3.createAuction("The Dark Knight Return", (double) 20, "Comics", "A Batman comic book", data );
-            peer_1.createAuction("Xiaomi Airdots PRO", (double) 20, "Headphones","Bluetooth headphones made by Xiaomi", data);
-            peer_2.createAuction("Airpods 1 Generation", (double) 120, "Headphones","Bluetooth headphones made by Apple", data );
-
-            Auction element2 = new Auction(3,"The Dark Knight Return", "Comics","A Batman comic book",(double) 20, data);
-            Auction element3 = new Auction (1, "Xiaomi Airdots PRO", "Headphones","Bluetooth headphones made by Xiaomi",(double) 20, data);
-            Auction element4 =new Auction(2,"Airpods 1 Generation","Headphones", "Bluetooth headphones made by Apple", (double) 120 ,data);
-
-            Thread.sleep(10000);
-
-            ArrayList<Auction> list = new ArrayList<Auction>();
-
-            list.add(element2);
-            list.add(element3);
-            list.add(element4);
-
-            assertEquals(list.toString(), peer_1.checkAllAuction().toString());
-            assertEquals(list.toString(), peer_2.checkAllAuction().toString());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("----END----");
-    }
-*/
 
 // FIND AUCTION BY CATEGORY___________________________________________________________________________________________________________
 
-    /*TEST 6-1: findAuctionByCategory()
+    /*TEST 5-1: findAuctionByCategory()
      * @result multiple peers creates multiple auctions and some of them wants to check what belongs to a certain category
      * */
 
@@ -571,7 +522,7 @@ public class AuctionMechanismImplTest {
 // FIND AUCTION BY PRICE___________________________________________________________________________________________________________
 
 
-    /*TEST 7-1: findAuctionByPrice()
+    /*TEST 6-1: findAuctionByPrice()
      * @result multiple peers creates multiple auctions and some of them wants to check which of them have a certain price
      * */
 
@@ -610,7 +561,7 @@ public class AuctionMechanismImplTest {
 
 // REMOVE AUCTION___________________________________________________________________________________________________________
 
-    /*TEST 8-1: removeAnAuction()
+    /*TEST 7-1: removeAnAuction()
      * @result multiple peers creates multiple auctions and some of them at a certain point, decides to remove what belongs to its
      * */
 
@@ -640,7 +591,7 @@ public class AuctionMechanismImplTest {
         System.out.println("----END----");
     }
 
-    /*TEST 8-1: removeAnAuction()
+    /*TEST 7-2: removingProcessWrong()
      * @result multiple peers creates multiple auctions and some of them tries to remove someone else's creation
      * */
 
