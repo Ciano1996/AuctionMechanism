@@ -312,7 +312,8 @@ CMD /usr/bin/java -jar AuctionCiano-1.0-jar-with-dependencies.jar -m $MASTERIP -
 ### The Docker
 First operation to perform is building the docker container in the terminal using this instruction:
 ```
-docker build --build-arg url=https://github.com/Ciano1996/AuctionMechanism.git --build-arg project=AuctionMechanism --build-arg artifactid=auctionciano --build-arg version=1.0-jar-with-dependencies -t auctionciano --no-cache .
+docker build --no-cache -t auctionciano .
+
 ```
 ### The Master Peer
 Next, is necessary to start the master peer with the following instruction in interactive "-i" mode and with 2 environment variables "-e"
