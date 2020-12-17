@@ -37,7 +37,7 @@ public class Auction implements Serializable {
         start_price =price;
         stop_time = end;
         users= new HashSet<PeerAddress>();
-
+        id_bid = -1;
         winBid = price;
     }
 

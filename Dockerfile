@@ -1,15 +1,21 @@
-FROM alpine/git
+FROM alpine/git as clone
+ARG url
 WORKDIR /app
-RUN git clone https://github.com/Ciano1996/AuctionMechanism.git
+RUN git clone ${url}
 
-FROM maven:3.5-jdk-8-alpine
+FROM maven:3.5-jdk-8-alpine as builder
+ARG project
 WORKDIR /app
-COPY --from=0 /app/AuctionMechanism /app
+COPY --from=clone /app/${project} /app
 RUN mvn package
 
 FROM openjdk:8-jre-alpine
+ARG artifactid
+ARG version
+ENV artifact ${artifactid}-${version}.jar
+WORKDIR /app
 ENV MASTERIP=127.0.0.1
 ENV ID=0
-COPY --from=1 /app/target/AuctionCiano-1.0-jar-with-dependencies.jar /
+COPY --from=builder /app/target/${artifact} /app
 
-CMD /usr/bin/java -jar AuctionCiano-1.0-jar-with-dependencies.jar -m $MASTERIP -id $ID
+CMD /usr/bin/java -jar ${artifactid} -m $MASTERIP -id $ID

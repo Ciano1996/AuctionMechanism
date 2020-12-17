@@ -176,7 +176,7 @@ public class Main {
 
 
                         String start_price = textIO.newStringInputReader()
-                                .read(" Insert Reserved Price: ");
+                                .read(" Insert Reserved Price (use '.' to divide cents): ");
 
                         if (start_price.length() > 10) {
                             terminal.printf("\nThe Bid is too big!\n");
