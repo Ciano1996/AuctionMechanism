@@ -152,8 +152,8 @@ public class Auction implements Serializable {
                         "\n- Description = "+ description +
                         "\n- Starting Price = " + start_price +
                         "\n- Winning Bid = " + winBid +
-                        "\n- Second Winning Bid = " + secondBid +
                         "\n- Participants = " + users +
+                        "\n- ID Winning Bid = "+ id_bid +
                         "\n____________________________";
     }
 }
