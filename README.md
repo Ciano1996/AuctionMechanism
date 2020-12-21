@@ -59,9 +59,6 @@ How it Works:
 - Search for the list of auction names in the DHT and, if found, the name is added to it and the DHT is updated
 - In the end the new auction object is added to the DHT
 
-```
-```
-
 
 ```checkAuction```: to check the status of a specific auction
 ```
@@ -75,9 +72,6 @@ How it Works:
 - If there is a positive result, takes the list, otherwise it create a new one
 - Then it looks for an auction with the name given as input and if found, takes the corresponding element
 - At that point there is the data checking, to understand if an auction is active or not and at least output its status
-
-```
-```
 
 ```placeAbid```: to bid over an auction.
 ```
@@ -93,8 +87,6 @@ How it Works:
 - Then there is the time checking part, to understand if the auction is active or not
 - Then, since it would not be possible, is checked if the bidder is the auction creator or the current best bidder
 -If these controls are passed, the amount bid is checked, to know if it is enough to participate regoularly and if so, all the information are finally updated in the DHT
-```
-```
 
 ## Other methods implemented
 
@@ -129,30 +121,31 @@ Here all the single tests made:
 
 ``` First Testing Class ```
 
-* K_creation
-* L_creationNoWorkDate
-* M_creationNoWorkOtherwise
-* N_checkNoWinner
-* O_checkNoParticipants
-* P_checkFailure
-* T_whatPeersOwn
-* Q_findingByCategory
-* U_findingByPrice
-* R_removingProcess
-* S_removingProcessWrong
+* A_creation 
+* B_creationNoWorkDate 
+* C_creationNoWorkOtherwise 
+* D_checkNoWinner 
+* E_checkNoParticipants 
+* F_checkFailure 
+* G_findingByCategory
+* H_removingProcess 
+* I_removingProcessWrong 
+* J_whatPeersOwn 
+* K_findingByPrice 
+
 
 ``` Second Testing Class ```
 
-* F_checkCallingPeerWon
-* E_checkAnotherOneWon
-* H_checkYouAreHigherBidder
-* I_checkPeerHigherBidder
-* N_bidOnEndedAuction
-* K_bidOnAlreadyWonAuction
-* M_bidCreator
-* L_bidMainBidder
-* O_bidProcess
-* P_bidNotEnough
+* L_checkAnotherOneWon 
+* M_checkCallingPeerWon 
+* N_checkYouAreHigherBidder 
+* O_checkPeerHigherBidder 
+* P_bidOnAlreadyWonAuction 
+* Q_bidMainBidder 
+* R_bidCreator 
+* S_bidOnEndedAuction 
+* T_bidProcess 
+* U_bidNotEnough 
 
 
 ``` Simulation  ```

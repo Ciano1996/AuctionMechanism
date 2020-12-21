@@ -61,7 +61,7 @@ public class AuctionMechanismImplTest {
     * */
 
     @Test
-    public void K_creation() throws IOException, ClassNotFoundException {
+    public void A_creation() throws IOException, ClassNotFoundException {
         System.out.println("creation is running...");
         try{
             Date data = new Date();
@@ -83,7 +83,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void L_creationNoWorkDate(){
+    public void B_creationNoWorkDate(){
         System.out.println("creationNoWorkDate is running...");
         try {
             Date data = new Date();
@@ -104,7 +104,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void M_creationNoWorkOtherwise(){
+    public void C_creationNoWorkOtherwise(){
         System.out.println("creationNoWorkOtherwise is running...");
         try {
             peer_1.createAuction("Kingdom Hearts 2", (double) 15, "Videogames","A videogame published by Square Enix", new Date(Calendar.getInstance().getTimeInMillis() + 1000 ) );
@@ -123,7 +123,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void N_checkNoWinner(){
+    public void D_checkNoWinner(){
         System.out.println("checkNoWinner is running...");
         try {
 
@@ -144,7 +144,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void O_checkNoParticipants(){
+    public void E_checkNoParticipants(){
         System.out.println("checkNoParticipants is running...");
         try {
 
@@ -171,7 +171,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void P_checkFailure(){
+    public void F_checkFailure(){
         System.out.println("checkFailure is running...");
         try {
 
@@ -197,7 +197,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void T_whatPeersOwn(){
+    public void J_whatPeersOwn(){
         System.out.println("whatPeersOwn is running...");
         try {
 
@@ -237,7 +237,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void Q_findingByCategory(){
+    public void G_findingByCategory(){
         System.out.println("findingByCategory is running...");
         try {
 
@@ -286,7 +286,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void U_findingByPrice(){
+    public void K_findingByPrice(){
         System.out.println("findingByPrice is running...");
         try {
 
@@ -325,7 +325,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void R_removingProcess(){
+    public void H_removingProcess(){
         System.out.println("removingProcess is running...");
         try {
 
@@ -355,7 +355,7 @@ public class AuctionMechanismImplTest {
      * */
 
     @Test
-    public void S_removingProcessWrong(){
+    public void I_removingProcessWrong(){
         System.out.println("removingProcessWrong is running...");
         try {
 

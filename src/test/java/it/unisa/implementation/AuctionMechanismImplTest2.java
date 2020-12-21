@@ -46,8 +46,6 @@ public class AuctionMechanismImplTest2 {
 
     }
 
-
-
         @After
         public void tearDown() throws IOException, ClassNotFoundException {
         peer_1.leaveNetwork();
@@ -58,17 +56,12 @@ public class AuctionMechanismImplTest2 {
         }
 
 
-
-
-// CREATE AUCTION___________________________________________________________________________________________________________
-
-
-    /*TEST 2-2: checkAuction()
+    /*TEST : checkAuction()
      * @result the peer that checks the status of the auction, is the one that won the auction
      * */
 
     @Test
-    public void F_checkCallingPeerWon(){
+    public void M_checkCallingPeerWon(){
         System.out.println("checkCallingPeerWon is running...");
         try {
 
@@ -85,12 +78,12 @@ public class AuctionMechanismImplTest2 {
         System.out.println("----END----");
     }
 
-    /*TEST 2-3: checkAuction()
+    /*TEST : checkAuction()
      * @result the peer that checks the status of the auction, is not the one that won it
      * */
 
     @Test
-    public void E_checkAnotherOneWon(){
+    public void L_checkAnotherOneWon(){
         System.out.println("checkAnotherOneWon is running...");
         try {
 
@@ -108,12 +101,12 @@ public class AuctionMechanismImplTest2 {
     }
 
 
-    /*TEST 2-5: checkAuction()
+    /*TEST : checkAuction()
      * @result the peer that check is the higher bidder
      * */
 
     @Test
-    public void H_checkYouAreHigherBidder(){
+    public void N_checkYouAreHigherBidder(){
         System.out.println("checkYouAreHigherBidder is running...");
         try {
 
@@ -133,12 +126,12 @@ public class AuctionMechanismImplTest2 {
         System.out.println("----END----");
     }
 
-    /*TEST 2-6: checkAuction()
+    /*TEST : checkAuction()
      * @result the peer that checks is not the higher bidder
      * */
 
     @Test
-    public void I_checkPeerHigherBidder(){
+    public void O_checkPeerHigherBidder(){
         System.out.println("checkPeerHigherBidder is running...");
         try {
 
@@ -161,12 +154,12 @@ public class AuctionMechanismImplTest2 {
 
 
 
-    /*TEST 3-1: placeABid()
+    /*TEST : placeABid()
      * @result the peer tries to bid on an already ended no won auction
      * */
 
     @Test
-    public void N_bidOnEndedAuction(){
+    public void S_bidOnEndedAuction(){
         System.out.println("bidOnEndedAuction is running...");
         try {
 
@@ -183,12 +176,13 @@ public class AuctionMechanismImplTest2 {
         }
         System.out.println("----END----");
     }
-    /*TEST 3-2: placeABid()
+
+    /*TEST : placeABid()
      * @result the peer tries to bid on an already won auction
      * */
 
     @Test
-    public void K_bidOnAlreadyWonAuction(){
+    public void P_bidOnAlreadyWonAuction(){
         System.out.println("bidOnAlreadyWonAuction is running...");
         try {
 
@@ -206,12 +200,13 @@ public class AuctionMechanismImplTest2 {
         }
         System.out.println("----END----");
     }
-    /*TEST 3-3: placeABid()
+
+    /*TEST : placeABid()
      * @result the creator of the auction tries to bid, but he can't since it's the owner
      * */
 
     @Test
-    public void M_bidCreator(){
+    public void R_bidCreator(){
         System.out.println("bidCreator is running...");
         try {
 
@@ -225,12 +220,13 @@ public class AuctionMechanismImplTest2 {
         }
         System.out.println("----END----");
     }
-    /*TEST 3-4: placeABid()
+
+    /*TEST : placeABid()
      * @result a peer bids more than once, and knows it's still the main bidder
      * */
 
     @Test
-    public void L_bidMainBidder(){
+    public void Q_bidMainBidder(){
         System.out.println("bidMainBidder is running...");
         try {
 
@@ -250,12 +246,13 @@ public class AuctionMechanismImplTest2 {
         }
         System.out.println("----END----");
     }
-    /*TEST 3-5: placeABid()
+
+    /*TEST : placeABid()
      * @result simple bidding mechanism result
      * */
 
     @Test
-    public void O_bidProcess(){
+    public void T_bidProcess(){
         System.out.println("bidProcess is running...");
         try {
 
@@ -274,12 +271,13 @@ public class AuctionMechanismImplTest2 {
         }
         System.out.println("----END----");
     }
-    /*TEST 3-6: placeABid()
+
+    /*TEST : placeABid()
      * @result the peer tries to bid an amount of money less than the starting price
      * */
 
     @Test
-    public void P_bidNotEnough(){
+    public void U_bidNotEnough(){
         System.out.println("biddingNotEnough is running...");
         try {
             Date data = new Date(Calendar.getInstance().getTimeInMillis() + 3000);
@@ -293,4 +291,4 @@ public class AuctionMechanismImplTest2 {
 
 
 
-}//class
+}
