@@ -126,8 +126,8 @@ public class AuctionMechanismImplSimulation {
 
             assertEquals("The auction has no participant right now, starting with a price of 30.0 € and is up untill " + data3 ,peer_3.checkAuction("Cats"));
             assertEquals("The auction Cats is up untill " + data3 + " and you are winning it bidding 40.0" , peer_3.placeABid("Cats", (double) 40));
-            assertEquals("the auction is active until " + data3 + "and right now you made the highest offer bidding 40.0",peer_3.checkAuction("Cats"));
-            assertEquals("the auction is active until " + data3 + "and right now the highest offer is 40.0",peer_2.checkAuction("Cats"));
+            assertEquals("the auction is active until " + data3 + " and right now you made the highest offer bidding 40.0",peer_3.checkAuction("Cats"));
+            assertEquals("the auction is active until " + data3 + " and right now the highest offer is 40.0",peer_2.checkAuction("Cats"));
 
             Thread.sleep(2000);
 
