@@ -88,8 +88,9 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                 try {
                     auctionNameList = (ArrayList<String>) futureGet.dataMap().values().iterator().next().object();
                 }catch (NoSuchElementException e){
+                    e.printStackTrace();
                 }
-                }
+            }
 
             auctionNameList.add(auction_name);
 
@@ -114,7 +115,18 @@ public class AuctionMechanismImpl implements AuctionMechanism {
     @Override
     public String checkAuction(String auction_name) throws IOException, ClassNotFoundException{
 
-        FutureGet futureGet = _dht.get(Number160.createHash(auction_name)).start();
+        FutureGet futureGet = _dht.get(Number160.createHash("auctionList")).start();
+        futureGet.awaitUninterruptibly();
+
+        if (futureGet.isSuccess()) {
+
+            if (futureGet.isEmpty()) {
+                _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
+                return null;
+            }
+        }
+
+        futureGet = _dht.get(Number160.createHash(auction_name)).start();
         futureGet.awaitUninterruptibly();
 
         if(futureGet.isSuccess()){
@@ -143,12 +155,13 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                     return "The auction has no participant right now, starting with a price of " + auction.getStart_price() + " € " + "and is up untill " + auction.getStop_time();
                 } else {
                     if(auction.getId_bid()==peer_id){
-                        return "the auction is active until " + auction.getStop_time() + "and right now you made the highest offer bidding " + auction.getWinBid();
+                        return "the auction is active until " + auction.getStop_time() + " and right now you made the highest offer bidding " + auction.getWinBid();
                     } else
-                        return "the auction is active until " + auction.getStop_time() + "and right now the highest offer is " + auction.getWinBid();
+                        return "the auction is active until " + auction.getStop_time() + " and right now the highest offer is " + auction.getWinBid();
                 }
             }
         }
+
 
         return null;
     }
@@ -163,57 +176,74 @@ public class AuctionMechanismImpl implements AuctionMechanism {
      */
 
     @Override
-    public String placeABid(String auctionName, Double bid) throws IOException, ClassNotFoundException {
+    public String placeABid(String auctionName, Double bid) throws IOException, ClassNotFoundException, NoSuchElementException {
 
-        FutureGet futureGet = _dht.get(Number160.createHash(auctionName)).start();
+        FutureGet futureGet = _dht.get(Number160.createHash("auctionList")).start();
         futureGet.awaitUninterruptibly();
 
+
         if (futureGet.isSuccess()) {
-            Auction auction = (Auction) futureGet.dataMap().values().iterator().next().object();
 
-            Date timeNow = new Date();
+            Collection<Data> dataMapValues = futureGet.dataMap().values();
 
-            if (timeNow.after(auction.getStop_time())) {
-                if (Double.compare(auction.getStart_price(), auction.getWinBid()) == 0) {
-                    return "It is not possible for you to bid since the auction is ended with no winner";
-                } else {
-                    return "You can't bid, the auction has been won by participant " + auction.getId_bid();
+            if (!dataMapValues.isEmpty()) {
+
+                auctionNameList = (ArrayList<String>) futureGet.dataMap().values().iterator().next().object();
+            }
+
+
+            if (auctionNameList.contains(auctionName)) {
+
+                futureGet = _dht.get(Number160.createHash(auctionName)).start();
+                futureGet.awaitUninterruptibly();
+
+                if (futureGet.isSuccess()) {
+
+                    Auction auction = (Auction) futureGet.dataMap().values().iterator().next().object();
+
+                    Date timeNow = new Date();
+
+                    if (timeNow.after(auction.getStop_time())) {
+                        if (Double.compare(auction.getStart_price(), auction.getWinBid()) == 0) {
+                            return "It is not possible for you to bid since the auction is ended with no winner";
+                        } else {
+                            return "You can't bid, the auction has been won by participant " + auction.getId_bid();
+                        }
+                    }
+                    if (auction.getOwner() == peer_id) {
+                        return "The auction creator can't bid";
+                    }
+
+                    if (auction.getId_bid() == peer_id) {
+                        return "You are still the highest bidder";
+
+                    }
+
+                    if (bid > auction.getWinBid()) {
+
+                        auction.setSecondBid(auction.getWinBid());
+                        auction.setWinBid(bid);
+
+                        auction.setPeerAddress_oldBid(auction.peerAddress_bid);
+                        auction.setPeerAddress_bid(peer.peerAddress());
+
+                        auction.setId_bid(peer_id);
+
+                        if (!auction.getUsers().contains(peer_id)) {
+                            auction.getUsers().add(peer.peerAddress());
+                            auction.setPeerAddress_bid(peer.peerAddress());
+                        }
+
+                        _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
+                        //Send Message
+                        message(auctionName, 1, "Better bid made on auction " + auctionName + "\n" + "Now the winning bid corresponds to " + auction.getWinBid() + " and belongs to " + auction.getId_bid());
+                        return "The auction " + auctionName + " is up untill " + auction.getStop_time() + " and you are winning it bidding " + auction.getWinBid();
+                    } else {
+                        return "Not enough to win";
+                    }
                 }
             }
-
-            if (auction.getOwner() == peer_id) {
-                return "The auction creator can't bid";
-            }
-
-            if (auction.getId_bid() == peer_id) {
-                return "You are still the highest bidder";
-            }
-
-            if (bid > auction.getWinBid()) {
-
-                auction.setSecondBid(auction.getWinBid());
-                auction.setWinBid(bid);
-
-                auction.setPeerAddress_oldBid(auction.peerAddress_bid);
-                auction.setPeerAddress_bid(peer.peerAddress());
-
-                auction.setId_bid(peer_id);
-
-                if (!auction.getUsers().contains(peer_id)) {
-                    auction.getUsers().add(peer.peerAddress());
-                    auction.setPeerAddress_bid(peer.peerAddress());
-                }
-
-                _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
-                //Send Message
-                message(auctionName, 1, "Better bid made on auction " + auctionName + "\n" + "Now the winning bid corresponds to " + auction.getWinBid() + " and belongs to " + auction.getId_bid());
-                return "The auction " + auctionName + " is up untill " + auction.getStop_time() + " and you are winning it bidding " + auction.getWinBid();
-            } else {
-                return "Not enough to win";
-            }
-
         }
-
         return null;
     }
 
@@ -272,7 +302,18 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
     public ArrayList<Auction> checkAllAuction() throws IOException, ClassNotFoundException {
 
-        FutureGet futureGet = _dht.get((Number160.createHash("auctionList"))).start();
+        FutureGet futureGet = _dht.get(Number160.createHash("auctionList")).start();
+        futureGet.awaitUninterruptibly();
+
+        if (futureGet.isSuccess()) {
+
+            if (futureGet.isEmpty()) {
+                _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
+                return null;
+            }
+        }
+
+        futureGet = _dht.get((Number160.createHash("auctionList"))).start();
         futureGet.awaitUninterruptibly();
 
         ArrayList<Auction> allAuction = new ArrayList<Auction>();

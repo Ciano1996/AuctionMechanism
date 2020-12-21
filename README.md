@@ -60,34 +60,6 @@ How it Works:
 - In the end the new auction object is added to the DHT
 
 ```
-public boolean createAuction(String auction_name, Double start_price, String category, String description, Date end_time) throws IOException, ClassNotFoundException{
-
-        if(checkAuction(auction_name) == null) {
-            Date time_now = new Date();
-            if (time_now.after(end_time)) {
-                return false;
-            }
-
-            Auction myAuction = new Auction(peer_id, auction_name, category, description, start_price, end_time);
-
-            FutureGet futureGet = _dht.get(Number160.createHash("auctionList")).start();
-            futureGet.awaitUninterruptibly();
-            if (futureGet.isSuccess()) {
-                try {
-                    auctionNameList = (ArrayList<String>) futureGet.dataMap().values().iterator().next().object();
-                }catch (NoSuchElementException e){
-                }
-                }
-
-            auctionNameList.add(auction_name);
-
-            _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
-            _dht.put(Number160.createHash(auction_name)).data(new Data(myAuction)).start().awaitUninterruptibly();
-
-            return true;
-        }
-        return false;
-    }
 ```
 
 
@@ -105,47 +77,6 @@ How it Works:
 - At that point there is the data checking, to understand if an auction is active or not and at least output its status
 
 ```
- public String checkAuction(String auction_name) throws IOException, ClassNotFoundException{
-
-        FutureGet futureGet = _dht.get(Number160.createHash(auction_name)).start();
-        futureGet.awaitUninterruptibly();
-
-        if(futureGet.isSuccess()){
-           Auction auction = new Auction();
-
-            try {
-                auction = (Auction) futureGet.dataMap().values().iterator().next().object();
-
-            } catch(NoSuchElementException e){
-               
-                return null;
-            }
-
-            Date timeRN = new Date();
-
-            if (timeRN.after(auction.getStop_time())){
-                if(Double.compare(auction.getStart_price(), auction.getWinBid())==0){
-                    return "The auction had no winner";
-                } else {
-                    if(auction.getId_bid() == peer_id) {
-                        return "You won the auction " + auction.getName() + " bidding " + auction.getWinBid() + " and paying " + auction.getSecondBid();
-                    } else
-                        return "The auction winner is " + auction.getId_bid() + " bidding " + auction.getWinBid() + " and paying " + auction.getSecondBid();
-                }
-            } else {
-                if(auction.getUsers().isEmpty()){
-                    return "The auction has no participant right now, starting with a price of " + auction.getStart_price() + " € " + "and is up untill " + auction.getStop_time();
-                } else {
-                    if(auction.getId_bid()==peer_id){
-                        return "the auction is active until " + auction.getStop_time() + "and right now you made the highest offer bidding " + auction.getWinBid();
-                    } else
-                        return "the auction is active until " + auction.getStop_time() + "and right now the highest offer is " + auction.getWinBid();
-                }
-            }
-        }
-
-        return null;
-    }
 ```
 
 ```placeAbid```: to bid over an auction.
@@ -163,59 +94,6 @@ How it Works:
 - Then, since it would not be possible, is checked if the bidder is the auction creator or the current best bidder
 -If these controls are passed, the amount bid is checked, to know if it is enough to participate regoularly and if so, all the information are finally updated in the DHT
 ```
-public String placeABid(String auctionName, Double bid) throws IOException, ClassNotFoundException {
-
-        FutureGet futureGet = _dht.get(Number160.createHash(auctionName)).start();
-        futureGet.awaitUninterruptibly();
-
-        if (futureGet.isSuccess()) {
-            Auction auction = (Auction) futureGet.dataMap().values().iterator().next().object();
-
-            Date timeNow = new Date();
-
-            if (timeNow.after(auction.getStop_time())) {
-                if (Double.compare(auction.getStart_price(), auction.getWinBid()) == 0) {
-                    return "It is not possible for you to bid since the auction is ended with no winner";
-                } else {
-                    return "You can't bid, the auction has been won by participant " + auction.getId_bid();
-                }
-            }
-
-            if (auction.getOwner() == peer_id) {
-                return "The auction creator can't bid";
-            }
-
-            if (auction.getId_bid() == peer_id) {
-                return "You are still the highest bidder";
-            }
-
-            if (bid > auction.getWinBid()) {
-
-                auction.setSecondBid(auction.getWinBid());
-                auction.setWinBid(bid);
-
-                auction.setPeerAddress_oldBid(auction.peerAddress_bid);
-                auction.setPeerAddress_bid(peer.peerAddress());
-
-                auction.setId_bid(peer_id);
-
-                if (!auction.getUsers().contains(peer_id)) {
-                    auction.getUsers().add(peer.peerAddress());
-                    auction.setPeerAddress_bid(peer.peerAddress());
-                }
-
-                _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
-                //Send Message
-                message(auctionName, 1, "Better bid made on auction " + auctionName + "\n" + "Now the winning bid corresponds to " + auction.getWinBid() + " and belongs to " + auction.getId_bid());
-                return "The auction " + auctionName + " is up untill " + auction.getStop_time() + " and you are winning it bidding " + auction.getWinBid();
-            } else {
-                return "Not enough to win";
-            }
-
-        }
-
-        return null;
-    }
 ```
 
 ## Other methods implemented
@@ -242,51 +120,71 @@ This method let the author of an auction remove it from the DHT whenever he want
 This method let any peers to leave the network, and befor leaving it will also remove from the DHT all the auctions the peers own
 
 ## Testing
-For the testing phase, two specific classes has been made and both of them explores all the possible outputs. 
+For the testing phase, three specific classes has been made and both of them explores all the possible outputs. 
 
-The first one is structured examining the outputs of each method, case per case
+The first two are structured examining the outputs of each method, case per case
 The second one is a simple simulation  
 
-#### CREATE AUCTION
--TEST 1-1: create a new auction
--TEST 1-2: creating a new auction doesn't work due to a wrong date insertion
--TEST 1-3: creating a new auction doesn't work since the auction of that product as already been created
-         
-#### CHECK AUCTION
+Here all the single tests made:
 
--TEST 2-1:  the check of the auction reveals that it is ended without a winner    
--TEST 2-2:  the peer that checks the status of the auction, is the one that won the auction    
--TEST 2-3:  the peer that checks the status of the auction, is not the one that won it      
--TEST 2-4: the auction checked has no participants  
--TEST 2-5: the peer that check is the higher bidder    
--TEST 2-6: the peer that checks is not the higher bidder       
--TEST 2-7: the check fails since it looks for a different product
-         
-#### PLACE A BID
+``` First Testing Class ```
 
--TEST 3-1: the peer tries to bid on an already ended no won auction   
--TEST 3-2: the peer tries to bid on an already won auction      
--TEST 3-3: the creator of the auction tries to bid, but he can't since it's the owner    
--TEST 3-4: a peer bids more than once, and knows it's still the main bidder     
--TEST 3-5: simple bidding mechanism result
--TEST 3-6: the peer tries to bid an amount of money less than the starting price
-     
-#### AUCTION OWNER
+* K_creation
+* L_creationNoWorkDate
+* M_creationNoWorkOtherwise
+* N_checkNoWinner
+* O_checkNoParticipants
+* P_checkFailure
+* T_whatPeersOwn
+* Q_findingByCategory
+* U_findingByPrice
+* R_removingProcess
+* S_removingProcessWrong
 
--TEST 4-1: multiple peers creates multiple auctions and some of them wants to check what they own
+``` Second Testing Class ```
 
-#### FIND AUCTION BY CATEGORY
+* F_checkCallingPeerWon
+* E_checkAnotherOneWon
+* H_checkYouAreHigherBidder
+* I_checkPeerHigherBidder
+* N_bidOnEndedAuction
+* K_bidOnAlreadyWonAuction
+* M_bidCreator
+* L_bidMainBidder
+* O_bidProcess
+* P_bidNotEnough
 
--TEST 5-1: multiple peers creates multiple auctions and some of them wants to check what belongs to a certain category
 
-#### FIND AUCTION BY PRICE
-
--TEST 6-1: multiple peers creates multiple auctions and some of them wants to check which of them have a certain price    
-
-#### REMOVE AUCTION
-
--TEST 7-1: multiple peers creates multiple auctions and some of them at a certain point, decides to remove what belongs to its    
--TEST 7-2: multiple peers creates multiple auctions and some of them tries to remove someone else's creation
+``` Simulation  ```
+```
+//First Step:
+            //Creation attempts of a first auction at which multiple users take part to.
+            //Peer_1 tries to create an auction, but fails since put a wrong date
+            //The master creates the auction correctly
+            //Peer_1 starts becoming the highest bidder
+            //Peer_2 try to bid offering not enough to participate to the auction
+            //Peer_3 offers more than Peer_1
+            //The master tries to bid, but it can't participate to the auction since it's the owner
+```
+```
+ //Second Step:
+            //Master, peer_1 and peer_2 creates, multiple auctions
+            //Peer_3 decides to check a specific auction
+            //Peer_3 bid on that auction and then check it again
+            //Peer_2 check the same auction on which peer_3 bid
+            //Peer_2 tries to bid on Peer_3's auction, but unfortunatly for it, it's ended
+            //Peer_1 checks on an auction of its interest to understand if it's still on
+            //Peer_2 checks the auction on which it didn't bid in time
+            //Peer_1 checks a specific category of auctions
+            //Peer_2 checks the list of auctions it's the owner of
+```
+```
+//Third Step:
+            //Peer_1 checks auction of a certain price
+            //Some of them try to remove, auctions not of their own
+            //Master removes its own auction
+            //To prove it is correct, peer_2 performs a check of all the auctions again
+```
 
 # The Dockerfile
 Here is how the project Dockerfile has been structured:

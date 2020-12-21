@@ -37,7 +37,7 @@ public class Auction implements Serializable {
         start_price =price;
         stop_time = end;
         users= new HashSet<PeerAddress>();
-        id_bid = -1;
+        id_bid = owner;
         winBid = price;
     }
 
@@ -153,7 +153,7 @@ public class Auction implements Serializable {
                         "\n- Starting Price = " + start_price +
                         "\n- Winning Bid = " + winBid +
                         "\n- Participants = " + users +
-                        "\n- ID Winning Bid = "+ id_bid +
+                        "\n- ID Winning Bidder = "+ id_bid +
                         "\n____________________________";
     }
 }
