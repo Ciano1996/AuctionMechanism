@@ -8,14 +8,13 @@ ARG project
 WORKDIR /app
 COPY --from=clone /app/${project} /app
 RUN mvn package
+RUN mvn test -Dtest=AuctionMechanismImplSimulation
 
 FROM openjdk:8-jre-alpine
-ARG artifactid
-ARG version
-ENV artifact ${artifactid}-${version}.jar
+ENV artifact ${project}-1.0-jar-with-dependencies.jar
 WORKDIR /app
 ENV MASTERIP=127.0.0.1
 ENV ID=0
 COPY --from=builder /app/target/${artifact} /app
 
-CMD /usr/bin/java -jar ${artifactid} -m $MASTERIP -id $ID
+CMD /usr/bin/java -jar ${project} -m $MASTERIP -id $ID
