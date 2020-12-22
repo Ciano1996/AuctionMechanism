@@ -182,41 +182,47 @@ Here all the single tests made:
 # The Dockerfile
 Here is how the project Dockerfile has been structured:
 ```
-FROM alpine/git
+FROM alpine/git as clone
+ARG url
 WORKDIR /app
-RUN git clone https://github.com/Ciano1996/AuctionMechanism.git
+RUN git clone ${url}
 
-FROM maven:3.5-jdk-8-alpine
+FROM maven:3.5-jdk-8-alpine as builder
+ARG project
 WORKDIR /app
-COPY --from=0 /app/AuctionMechanism /app
+COPY --from=clone /app/${project} /app
 RUN mvn package
+RUN mvn test -Dtest=AuctionMechanismImplSimulation
 
 FROM openjdk:8-jre-alpine
+ARG project
+ENV artifact ${project}-1.0-jar-with-dependencies.jar
+WORKDIR /app
 ENV MASTERIP=127.0.0.1
 ENV ID=0
-COPY --from=1 /app/target/AuctionCiano-1.0-jar-with-dependencies.jar /
+COPY --from=builder /app/target/${artifact} /app
 
-CMD /usr/bin/java -jar AuctionCiano-1.0-jar-with-dependencies.jar -m $MASTERIP -id $ID
+CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
 ```
 
 # How to build the Project
 ### The Docker
 First operation to perform is building the docker container in the terminal using this instruction:
 ```
-docker build --no-cache -t auctionciano .
+docker build --build-arg url=https://github.com/Ciano1996/AuctionMechanism.git --build-arg project=AuctionMechanism -t auctionmechanism --no-cache .
 
 ```
 ### The Master Peer
 Next, is necessary to start the master peer with the following instruction in interactive "-i" mode and with 2 environment variables "-e"
 ```
-docker run -i --name MASTER-PEER -e MASTERIP="127.0.0.1" -e ID=0 auctionciano
+docker run -i --name MASTER-PEER -e MASTERIP="127.0.0.1" -e ID=0 auctionmechanism
 ```
 The MASTERIP variable refers to the master peer address, while the ID refers to the unique peer ID value. The master have to start with ID value 0
 
 ### Other Peers
 After the master, other peers can be started with
 ```
-docker run -i --name PEER-1 -e MASTERIP="172.17.0.2" -e ID=1 auctionciano
+docker run -i --name PEER-1 -e MASTERIP="172.17.0.2" -e ID=1 auctionmechanism
 ```
 What is important to make it work, is to change the ID values, giving each peer a different unique one
 
