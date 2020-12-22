@@ -11,6 +11,7 @@ RUN mvn package
 RUN mvn test -Dtest=AuctionMechanismImplSimulation
 
 FROM openjdk:8-jre-alpine
+ARG project
 ENV artifact ${project}-1.0-jar-with-dependencies.jar
 WORKDIR /app
 ENV MASTERIP=127.0.0.1
