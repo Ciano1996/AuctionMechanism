@@ -18,4 +18,4 @@ ENV MASTERIP=127.0.0.1
 ENV ID=0
 COPY --from=builder /app/target/${artifact} /app
 
-CMD /usr/bin/java -jar ${project} -m $MASTERIP -id $ID
+CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
