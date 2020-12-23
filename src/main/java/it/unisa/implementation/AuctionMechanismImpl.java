@@ -285,10 +285,11 @@ public class AuctionMechanismImpl implements AuctionMechanism {
             ArrayList<String> outro = auctionOwner();
 
             if (!outro.isEmpty()) {
+
                 for (String bye : outro) {
+                    message(bye, 1, "The Auction " + bye + " has been closed since the Owner left");
                     removeAnAuction(bye);
 
-                    message(bye, 1, "The Auction " + bye + " has been closed since the Owner left");
                 }
             }
         } catch (NullPointerException e){
@@ -444,6 +445,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
             futureGet.awaitUninterruptibly();
 
             if (futureGet.isSuccess()){
+                message(name, 2 ,"The Auction " + name + " has been removed by its Owner");
                 Auction auctionToRemove = (Auction) futureGet.dataMap().values().iterator().next().object();
 
                 if(peer_id== auctionToRemove.getOwner()){
@@ -460,10 +462,8 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                                return false;
                            }
                         }
-
                         auctionNameList.remove(name);
-                        System.out.println("Calling Message in remove");
-                        message(name, 2 ,"The Auction " + name + " has been removed by its Owner");
+
                         _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
 
 
