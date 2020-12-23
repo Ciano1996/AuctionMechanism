@@ -3,7 +3,6 @@ package it.unisa.implementation;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 import net.tomp2p.dht.FutureGet;
@@ -235,7 +234,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                         }
 
                         //Send Message
-                        System.out.println("Calling Message in remove");
+                        System.out.println("Calling Message in placeabid");
                         message(auctionName, 1, "Better bid made on auction " + auctionName + "\n" + "Now the winning bid corresponds to " + auction.getWinBid() + " and belongs to " + auction.getId_bid());
                         _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
                         return "The auction " + auctionName + " is up untill " + auction.getStop_time() + " and you are winning it bidding " + auction.getWinBid();
@@ -289,7 +288,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                 for (String bye : outro) {
                     removeAnAuction(bye);
 
-                    message(bye, 2, "The Auction " + bye + " has been closed since the Owner left");
+                    message(bye, 1, "The Auction " + bye + " has been closed since the Owner left");
                 }
             }
         } catch (NullPointerException e){
@@ -377,7 +376,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
-                    } if (type == 2) {
+                    } if (type != 1) {
                         System.out.println("Sending Message 2..." + obj);
 
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
