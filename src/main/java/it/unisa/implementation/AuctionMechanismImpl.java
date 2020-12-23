@@ -287,7 +287,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
             if (!outro.isEmpty()) {
 
                 for (String bye : outro) {
-                    message(bye, 1, "The Auction " + bye + " has been closed since the Owner left");
+                    message(bye, 2, "The Auction " + bye + " has been closed since the Owner left");
                     removeAnAuction(bye);
 
                 }
