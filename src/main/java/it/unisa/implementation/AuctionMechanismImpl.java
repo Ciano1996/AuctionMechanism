@@ -372,7 +372,8 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                     if (mypeer.equals(auction.getPeerAddress_oldBid()) && users.size() > 1 && type == 1) {
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
-                    } else if (type != 1) {
+                    } else if (type == 2) {
+                        System.out.println("Sending Message..." + obj);
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
                     }
@@ -456,8 +457,10 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                         }
 
                         auctionNameList.remove(name);
-                        _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
                         message(name, 2 ,"The Auction " + name + " has been removed by its Owner");
+                        _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
+
+
                         return true;
                     }
                 }
