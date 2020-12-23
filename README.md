@@ -59,7 +59,6 @@ How it Works:
 - Search for the list of auction names in the DHT and, if found, the name is added to it and the DHT is updated
 - In the end the new auction object is added to the DHT
 
-
 ```checkAuction```: to check the status of a specific auction
 ```
 Value:
@@ -68,7 +67,7 @@ Value:
 ```
 How it Works:
 
-- First of all it checks if the name the user is looking for is in the DHT
+- First of all it checks if there is the list of auctions in the DHT, creating it if it doesn't exists, than checks if the name the user is looking for is in the DHT
 - If there is a positive result, takes the list, otherwise it create a new one
 - Then it looks for an auction with the name given as input and if found, takes the corresponding element
 - At that point there is the data checking, to understand if an auction is active or not and at least output its status
@@ -83,6 +82,7 @@ Values:
 
 How it Works:
 
+- Checks if there is the list of auctions in the DHT, if not it creates it
 - Checks if the corresponding auction exists, and if found, download it from the DHT
 - Then there is the time checking part, to understand if the auction is active or not
 - Then, since it would not be possible, is checked if the bidder is the auction creator or the current best bidder

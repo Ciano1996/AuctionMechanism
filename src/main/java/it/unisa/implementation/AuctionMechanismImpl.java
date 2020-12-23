@@ -180,16 +180,11 @@ public class AuctionMechanismImpl implements AuctionMechanism {
         FutureGet futureGet = _dht.get(Number160.createHash("auctionList")).start();
         futureGet.awaitUninterruptibly();
 
-
         if (futureGet.isSuccess()) {
-
             Collection<Data> dataMapValues = futureGet.dataMap().values();
-
             if (!dataMapValues.isEmpty()) {
-
                 auctionNameList = (ArrayList<String>) futureGet.dataMap().values().iterator().next().object();
             }
-
 
             if (auctionNameList.contains(auctionName)) {
 
