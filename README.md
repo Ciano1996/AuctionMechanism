@@ -54,7 +54,7 @@ Values:
 ```
 How it Works:
 
-- Checks first if the auction that the user is trying to create, do not already exist in the DHT
+- Checks first if the auction that the user is trying to create do not already exist in the DHT
 - If not, it creates the auction object using all the parameters received
 - Search for the list of auction names in the DHT and, if found, the name is added to it and the DHT is updated
 - In the end the new auction object is added to the DHT
@@ -67,8 +67,8 @@ Value:
 ```
 How it Works:
 
-- First of all it checks if there is the list of auctions in the DHT, creating it if it doesn't exists, than checks if the name the user is looking for is in the DHT
-- If there is a positive result, takes the list, otherwise it create a new one
+- First of all it checks if there is the list of auctions in the DHT
+- If there is a positive result, takes the list, otherwise it creates a new one
 - Then it looks for an auction with the name given as input and if found, takes the corresponding element
 - At that point there is the data checking, to understand if an auction is active or not and at least output its status
 
@@ -86,7 +86,7 @@ How it Works:
 - Checks if the corresponding auction exists, and if found, download it from the DHT
 - Then there is the time checking part, to understand if the auction is active or not
 - Then, since it would not be possible, is checked if the bidder is the auction creator or the current best bidder
--If these controls are passed, the amount bid is checked, to know if it is enough to participate regoularly and if so, all the information are finally updated in the DHT
+- If these controls are passed, the amount bid is checked, to know if it is enough to participate regoularly and if so, all the information are finally updated in the DHT
 
 ## Other methods implemented
 
@@ -94,7 +94,7 @@ How it Works:
 This method let the user to check all the active auction at the moment, receiving all the important information about their status
 
 * AuctionOwner:
-This method let the peer using it, have a list of all the active auction it own as creator, reveiving the important information about each one
+This method let the peer using it, have a list of all the active auction it owns as creator, receiving the name of each one
 
 * FindAuctionByCategory:
 This method let the user have a list of all the active auctions belonging to the same category
@@ -109,10 +109,10 @@ Al clearly explains the name, this method is used to send a message. It is used 
 This method let the author of an auction remove it from the DHT whenever he wants. All the participants to the auction will be updated about the removing with a message. Is t clear, that only the creator  of the auction can make this operation
 
 * LeaveNetwork:
-This method let any peers to leave the network, and befor leaving it will also remove from the DHT all the auctions the peers own
+This method let any peers to leave the network, and before leaving it will also remove from the DHT all the auctions the peers own
 
 ## Testing
-For the testing phase, three specific classes has been made and both of them explores all the possible outputs. 
+For the testing phase, three specific classes has been made and all of them explores all the possible outputs. 
 
 The first two are structured examining the outputs of each method, case per case
 The second one is a simple simulation  
@@ -204,6 +204,15 @@ COPY --from=builder /app/target/${artifact} /app
 
 CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
 ```
+
+Any app whose source code is hosted on GitHub, whose uses Maven as compilation tool and whose output is a executable jar file, can be build following the structure of the file given.
+
+Parameters used are:
+```
+- The URL of the GitHub repository
+- The name of the project
+```
+
 
 # How to build the Project
 ### The Docker
