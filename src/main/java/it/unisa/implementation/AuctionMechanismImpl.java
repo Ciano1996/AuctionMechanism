@@ -362,7 +362,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
      */
 
     public void message(String auctionName, int type, Object obj) throws IOException, ClassNotFoundException {
-
+        System.out.println(type);
         FutureGet futureGet = _dht.get(Number160.createHash(auctionName)).start();
         futureGet.awaitUninterruptibly();
 
