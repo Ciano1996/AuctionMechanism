@@ -233,8 +233,6 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                             auction.setPeerAddress_bid(peer.peerAddress());
                         }
 
-                        //Send Message
-                        System.out.println("Calling Message in placeabid");
                         message(auctionName, 1, "Better bid made on auction " + auctionName + "\n" + "Now the winning bid corresponds to " + auction.getWinBid() + " and belongs to " + auction.getId_bid());
                         _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
                         return "The auction " + auctionName + " is up untill " + auction.getStop_time() + " and you are winning it bidding " + auction.getWinBid();
@@ -289,7 +287,6 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                 for (String bye : outro) {
                     message(bye, 2, "The Auction " + bye + " has been closed since the Owner left");
                     removeAnAuction(bye);
-
                 }
             }
         } catch (NullPointerException e){
@@ -362,7 +359,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
      */
 
     public void message(String auctionName, int type, Object obj) throws IOException, ClassNotFoundException {
-        System.out.println(type);
+
         FutureGet futureGet = _dht.get(Number160.createHash(auctionName)).start();
         futureGet.awaitUninterruptibly();
 
@@ -373,12 +370,10 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
                 for (PeerAddress mypeer : users) {
                     if (mypeer.equals(auction.getPeerAddress_oldBid()) && users.size() > 1 && type == 1) {
-                        System.out.println("Sending Message 1..." + obj);
 
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
                     } if (type != 1) {
-                        System.out.println("Sending Message 2..." + obj);
 
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
@@ -405,7 +400,6 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                 results.add(a);
             }
         }
-
         return results;
     }
 
@@ -478,4 +472,4 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
 
 
-} //class
+}
