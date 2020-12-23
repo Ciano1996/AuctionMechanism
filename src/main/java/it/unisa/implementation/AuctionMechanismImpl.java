@@ -234,10 +234,12 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                             auction.setPeerAddress_bid(peer.peerAddress());
                         }
 
-                        _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
                         //Send Message
+                        System.out.println("Calling Message in remove");
                         message(auctionName, 1, "Better bid made on auction " + auctionName + "\n" + "Now the winning bid corresponds to " + auction.getWinBid() + " and belongs to " + auction.getId_bid());
+                        _dht.put(Number160.createHash(auctionName)).data(new Data(auction)).start().awaitUninterruptibly();
                         return "The auction " + auctionName + " is up untill " + auction.getStop_time() + " and you are winning it bidding " + auction.getWinBid();
+
                     } else {
                         return "Not enough to win";
                     }
@@ -286,6 +288,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
             if (!outro.isEmpty()) {
                 for (String bye : outro) {
                     removeAnAuction(bye);
+
                     message(bye, 2, "The Auction " + bye + " has been closed since the Owner left");
                 }
             }
@@ -370,10 +373,13 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
                 for (PeerAddress mypeer : users) {
                     if (mypeer.equals(auction.getPeerAddress_oldBid()) && users.size() > 1 && type == 1) {
+                        System.out.println("Sending Message 1..." + obj);
+                        System.out.println(type);
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
                     } else if (type == 2) {
-                        System.out.println("Sending Message..." + obj);
+                        System.out.println("Sending Message 2..." + obj);
+                        System.out.println(type);
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
                     }
@@ -457,6 +463,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                         }
 
                         auctionNameList.remove(name);
+                        System.out.println("Calling Message in remove");
                         message(name, 2 ,"The Auction " + name + " has been removed by its Owner");
                         _dht.put(Number160.createHash("auctionList")).data(new Data(auctionNameList)).start().awaitUninterruptibly();
 
