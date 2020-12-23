@@ -374,12 +374,12 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                 for (PeerAddress mypeer : users) {
                     if (mypeer.equals(auction.getPeerAddress_oldBid()) && users.size() > 1 && type == 1) {
                         System.out.println("Sending Message 1..." + obj);
-                        System.out.println(type);
+
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
-                    } else if (type == 2) {
+                    } if (type == 2) {
                         System.out.println("Sending Message 2..." + obj);
-                        System.out.println(type);
+
                         FutureDirect futureDirect = _dht.peer().sendDirect(mypeer).object(obj).start();
                         futureDirect.awaitUninterruptibly();
                     }
