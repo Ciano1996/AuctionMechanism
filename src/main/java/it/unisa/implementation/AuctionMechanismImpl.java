@@ -129,7 +129,7 @@ public class AuctionMechanismImpl implements AuctionMechanism {
         futureGet.awaitUninterruptibly();
 
         if(futureGet.isSuccess()){
-           Auction auction = new Auction();
+            Auction auction = new Auction();
 
             try {
                 auction = (Auction) futureGet.dataMap().values().iterator().next().object();
@@ -251,17 +251,17 @@ public class AuctionMechanismImpl implements AuctionMechanism {
 
     public ArrayList<String> auctionOwner() throws IOException, ClassNotFoundException {
         try {
-          ArrayList<Auction> hub = checkAllAuction();
+            ArrayList<Auction> hub = checkAllAuction();
 
-        ArrayList<String> names = new ArrayList<String>();
+            ArrayList<String> names = new ArrayList<String>();
 
-        for (Auction a : hub) {
+            for (Auction a : hub) {
 
                 if (peer_id == a.getOwner()) {
                     names.add(a.getName());
                 }
-        }
-        return names;
+            }
+            return names;
         } catch (NullPointerException e) {
             return null;
         }
@@ -445,11 +445,11 @@ public class AuctionMechanismImpl implements AuctionMechanism {
                         FutureGet futureGet2 = _dht.get(Number160.createHash("auctionList")).start();
                         futureGet2.awaitUninterruptibly();
                         if (futureGet2.isSuccess()) {
-                           try {
-                               auctionNameList = (ArrayList<String>) futureGet2.dataMap().values().iterator().next().object();
-                           } catch (NoSuchElementException e){
-                               return false;
-                           }
+                            try {
+                                auctionNameList = (ArrayList<String>) futureGet2.dataMap().values().iterator().next().object();
+                            } catch (NoSuchElementException e){
+                                return false;
+                            }
                         }
                         auctionNameList.remove(name);
 
