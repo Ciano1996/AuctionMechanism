@@ -106,7 +106,7 @@ This method let the user have a list of all the active auctions having the same 
 Al clearly explains the name, this method is used to send a message. It is used in the situations in which a better bid is made, in this case the old best offerer is notified. It is also used when the owner of an auction, suddenly decide to leave the network or remove that specific auction. in this case all the participants are notified 
 
 * RemoveAnAuction:
-This method let the author of an auction remove it from the DHT whenever he wants. All the participants to the auction will be updated about the removing with a message. Is t clear, that only the creator  of the auction can make this operation
+This method let the author of an auction remove it from the DHT whenever he wants. All the participants to the auction will be updated about the removing with a message. Is it clear, that only the creator  of the auction can make this operation
 
 * LeaveNetwork:
 This method let any peers to leave the network, and before leaving it will also remove from the DHT all the auctions the peers own
@@ -205,7 +205,7 @@ COPY --from=builder /app/target/${artifact} /app
 CMD /usr/bin/java -jar ${artifact} -m $MASTERIP -id $ID
 ```
 
-Any app whose source code is hosted on GitHub, whose uses Maven as compilation tool and whose output is a executable jar file, can be build following the structure of the file given.
+Any app whose source code is hosted on GitHub, that uses Maven as compilation tool and whose output is a executable jar file, can be build following the structure of the file given.
 
 Parameters used are:
 ```
